@@ -26,7 +26,8 @@ function Navigation() {
     },
   ];
   return (
-    <section className="mx-auto fixed-top">
+    // <section className="mx-auto fixed-top">
+    <section className="mx-auto">
       {/* Navegador de publicidad y contactos */}
       <div>
         <nav className="navbar bg-dark text-white" data-bs-theme="dark">
@@ -74,6 +75,62 @@ function Navigation() {
               className="collapse navbar-collapse grid gap-3"
               id="navbarSupportedContent"
             >
+              <ul className="navbar-nav">
+                {/* <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Categories
+                  </a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Women
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Men
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Children
+                      </a>
+                    </li>{" "}
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Girls
+                      </a>
+                    </li>
+                  </ul>
+                </li> */}
+                <li className="nav-item">
+                  <a className="nav-link active" aria-current="page" href="#">
+                    Women
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
+                    Men
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
+                    Children
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
+                    Girls
+                  </a>
+                </li>
+              </ul>
+
               {/* Primera columna para la barra de búsqueda */}
               <div className="mx-auto col-md-6 p-2">
                 <form className="d-flex" role="search">
@@ -111,69 +168,15 @@ function Navigation() {
       </div>
 
       {/* Navegador de opciones de busqueda por categorias */}
-      <div>
+      {/* <div>
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
           <div className="container-fluid navbar-brand mx-auto">
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
-              <ul className="navbar-nav">
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Categories
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Women
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Men
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Children
-                      </a>
-                    </li>{" "}
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Girls
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link active" aria-current="page" href="#">
-                    Women
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    Men
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    Children
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    Girls
-                  </a>
-                </li>
-              </ul>
+              
             </div>
           </div>
         </nav>
-      </div>
+      </div> */}
     </section>
   );
 }
