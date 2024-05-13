@@ -1,83 +1,46 @@
-// import Content from "./components/content";
-import ProductList from "./components/ProductList";
-import Navigation from "./components/navigation";
+import { useState, useEffect } from "react";
+import Navigation from "./components/Navigation.jsx";
+import Products from "./components/Products.jsx";
+import fetch_data from "./api/api_backend.jsx";
 
 function App() {
+  const [categories, setCategories] = useState([]);
+  const [marks, setMarks] = useState([]);
+  const [sizes, setSizes] = useState([]);
+  const [colors, setColors] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(0);
+
+  useEffect(() => {
+    fetch_data("/products", setProducts);
+    fetch_data("/categories", setCategories);
+    fetch_data("/marks", setMarks);
+    fetch_data("/sizes", setSizes);
+    fetch_data("/colors", setColors);
+  }, []);
+
+  useEffect(() => {
+    if (selectedCategoryId === 0) {
+      fetch_data("/products", setProducts);
+    } else {
+      fetch_data("/products/categories/" + selectedCategoryId, setProducts);
+    }
+  }, [selectedCategoryId]);
+
+  const handleCategorySelect = (categoryId) => {
+    setSelectedCategoryId(categoryId);
+  };
+
   return (
     <>
       <header>
-        <Navigation />
+        <Navigation categories={categories} onCategorySelect={handleCategorySelect} />
       </header>
-      {/* AÑADIR UN MARGIN TOP PERSONALIZADO PARA EVITAR QUE EL CONTENIDO SE PIERDA DENTRO DE LA BARRA DE NAVEGACIÓN. */}
       <main>
-        <ProductList/>
+        <Products products={products} marks={marks} sizes={sizes} colors={colors} />
       </main>
     </>
   );
 }
 
 export default App;
-
-// App.jsx
-// import React from 'react';
-// import ProductList from './components/ProductList';
-
-// function App() {
-//   const products = [
-//     {
-//       id: 1,
-//       name: 'T-Shirt',
-//       description: 'A comfortable t-shirt',
-//       image: 'https://www.louisphilippe.com/blog/wp-content/uploads/2022/07/Select-The-Best-From-This-Stellar-Range-Of-Mens-T-shirts-Louis-Philippe-Fashion-Blogs.jpg',
-//     },
-//     {
-//       id: 2,
-//       name: 'Jeans',
-//       description: 'A pair of stylish jeans',
-//       image: 'https://clustermodanorte.cccucuta.org.co/wp-content/uploads/2021/08/16522-2.jpg',
-//     },
-//     {
-//       id: 3,
-//       name: 'T-Shirt',
-//       description: 'A comfortable t-shirt',
-//       image: 'https://www.louisphilippe.com/blog/wp-content/uploads/2022/07/Select-The-Best-From-This-Stellar-Range-Of-Mens-T-shirts-Louis-Philippe-Fashion-Blogs.jpg',
-//     },
-//     {
-//       id: 4,
-//       name: 'Jeans',
-//       description: 'A pair of stylish jeans',
-//       image: 'https://clustermodanorte.cccucuta.org.co/wp-content/uploads/2021/08/16522-2.jpg',
-//     },
-//     // Add more products here
-//   ];
-
-//   return (
-//     <>
-//     <header>
-//     <Navigation />
-//     </header>
-//     <div className="container">
-//       <h1>Clothing Products</h1>
-//       <ProductList products={products} />
-//     </div>
-//     </>
-//   );
-// }
-
-// export default App;
-
-
-////////////////////////////////////
-
-// import React from 'react';
-// import ProductList from "./components/ProductList";
-
-// const App = () => {
-//   return (
-//     <div className="container-fluid">
-//       <ProductList />
-//     </div>
-//   );
-// };
-
-// export default App;
