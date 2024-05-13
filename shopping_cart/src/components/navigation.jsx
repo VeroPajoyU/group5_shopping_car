@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
+import logo from "../assets/logo_white.png";
 
 function Navigation ({ categories, onSearchChange, onCategorySelect }) {
   const [searchText, setSearchText] = useState('');
@@ -16,7 +17,7 @@ function Navigation ({ categories, onSearchChange, onCategorySelect }) {
 
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="#">Logo</Navbar.Brand>
+      <Navbar.Brand><img src={logo} alt="Boutique" width={270} height={40} /></Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
