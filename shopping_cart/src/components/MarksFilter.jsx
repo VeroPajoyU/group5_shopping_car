@@ -1,14 +1,21 @@
 // MarksFilter.jsx --> Fila de checkbox para seleccionar marcas.
+import { useState } from 'react';
 import { Form } from 'react-bootstrap';
 
-const MarksFilter = ({ marks, onFilterChange }) => {
-  const handleChange = (e) => {
-    const { name, value, checked } = e.target;
-    if (checked) {
-      onFilterChange(name, value, 'add');
+function MarksFilter({ marks, onMarksSelect }) {
+  const [selectedMarks, setSelectedMarks] = useState([]);
+
+  const handleMarkSelect = (markId) => {
+    const isSelected = selectedMarks.includes(markId);
+    if (isSelected) {
+      setSelectedMarks(selectedMarks.filter((id) => id !== markId));
     } else {
-      onFilterChange(name, value, 'remove');
+      setSelectedMarks([...selectedMarks, markId]);
     }
+  };
+
+  const handleApply = () => {
+    onMarksSelect(selectedMarks);
   };
 
   return (
@@ -21,11 +28,13 @@ const MarksFilter = ({ marks, onFilterChange }) => {
           name="mark"
           value={mark.id}
           label={mark.mark}
-          onChange={handleChange}
+          checked={selectedMarks.includes(mark.id)}
+          onChange={() => handleMarkSelect(mark.id)}
         />
       ))}
+      <button onClick={handleApply}>Aplicar</button>
     </Form>
   );
-};
+}
 
 export default MarksFilter;

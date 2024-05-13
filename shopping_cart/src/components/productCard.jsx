@@ -3,7 +3,7 @@ import { FaEye, FaShoppingCart, FaHeart } from "react-icons/fa";
 
 const ProductCard = ({ product }) => {
   return (
-    <Card style={{ width: "22rem", position: "relative", margin: "20px" }}>
+    <Card style={{ width: "20rem", position: "relative", margin: "20px" }}>
       <Card.Img variant="top" src="https://dqp736wsu6w3m.cloudfront.net/s3bucket/w300/looks/1167/advgasds.jpg"/>{/* src={product.image} */}
       <Card.Body>
         <Card.Title>{product.product}</Card.Title>

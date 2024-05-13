@@ -1,3 +1,4 @@
+// App.jsx
 import { useState, useEffect } from "react";
 import Navigation from "./components/Navigation.jsx";
 import Products from "./components/Products.jsx";
@@ -10,6 +11,7 @@ function App() {
   const [colors, setColors] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
+  const [selectedMarksIds, setSelectedMarksIds] = useState([]);
 
   useEffect(() => {
     fetch_data("/products", setProducts);
@@ -27,8 +29,21 @@ function App() {
     }
   }, [selectedCategoryId]);
 
+  useEffect(() => {
+    if (selectedMarksIds.length === 0) {
+      fetch_data("/products", setProducts);
+    } else {
+      const marksIdsString = selectedMarksIds.join(',');
+      fetch_data("/products/marks/" + marksIdsString, setProducts);
+    }
+  }, [selectedMarksIds]);
+
   const handleCategorySelect = (categoryId) => {
     setSelectedCategoryId(categoryId);
+  };
+
+  const handleMarkSelect = (markIds) => {
+    setSelectedMarksIds(markIds);
   };
 
   return (
@@ -37,7 +52,7 @@ function App() {
         <Navigation categories={categories} onCategorySelect={handleCategorySelect} />
       </header>
       <main>
-        <Products products={products} marks={marks} sizes={sizes} colors={colors} />
+        <Products products={products} marks={marks} sizes={sizes} colors={colors} onMarksSelect={handleMarkSelect}/>
       </main>
     </>
   );
