@@ -1,39 +1,70 @@
 // MarksFilter.jsx --> Fila de checkbox para seleccionar marcas.
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Form } from 'react-bootstrap';
 
 function MarksFilter({ marks, onMarksSelect }) {
   const [selectedMarks, setSelectedMarks] = useState([]);
+  const [isAllSelected, setIsAllSelected] = useState(false);
 
-  const handleMarkSelect = (markId) => {
+  const handleMarkSelect = useCallback((markId) => {
     const isSelected = selectedMarks.includes(markId);
-    if (isSelected) {
-      setSelectedMarks(selectedMarks.filter((id) => id !== markId));
+    if (markId === "all") {
+      setIsAllSelected(!isAllSelected);
+      setSelectedMarks(isAllSelected ? [] : marks.map((mark) => mark.id));
     } else {
-      setSelectedMarks([...selectedMarks, markId]);
+      if (isSelected) {
+        setSelectedMarks(selectedMarks.filter((id) => id !== markId));
+      } else {
+        setSelectedMarks([...selectedMarks, markId]);
+      }
     }
-  };
+  }, [selectedMarks, marks]);
 
-  const handleApply = () => {
+  const handleAllSelect = useCallback((event) => {
+    setIsAllSelected(event.target.checked);
+    setSelectedMarks(event.target.checked ? marks.map((mark) => mark.id) : []);
+  }, [marks]);
+
+  const handleApply = useCallback((event) => {
+    event.preventDefault();
     onMarksSelect(selectedMarks);
-  };
+  }, [selectedMarks, onMarksSelect]);
 
   return (
-    <Form>
-      <Form.Label>Marks</Form.Label>
-      {marks.map((mark) => (
-        <Form.Check
-          key={mark.id}
-          type="checkbox"
-          name="mark"
-          value={mark.id}
-          label={mark.mark}
-          checked={selectedMarks.includes(mark.id)}
-          onChange={() => handleMarkSelect(mark.id)}
-        />
-      ))}
-      <button onClick={handleApply}>Aplicar</button>
-    </Form>
+    <div className='container mt-4 accordion'>
+      <div className='accordion-item'>
+        <Form onSubmit={handleApply}>
+          <div className="text-center mt-3">
+            <h5><Form.Label>Marcas</Form.Label></h5>
+          </div>
+          <div className="accordion-body m-1" style={{ overflowY: "auto", maxHeight: "200px"}}>
+            <Form.Check
+              key={"all"}
+              type="checkbox"
+              name="mark"
+              value={"all"}
+              label={"Todas"}
+              checked={isAllSelected}
+              onChange={handleAllSelect}
+            />
+            {marks.map((mark) => (
+              <Form.Check
+                key={mark.id}
+                type="checkbox"
+                name="mark"
+                value={mark.id}
+                label={mark.mark}
+                checked={selectedMarks.includes(mark.id)}
+                onChange={() => handleMarkSelect(mark.id)}
+              />
+            ))}
+          </div>
+          <div className="text-center m-3">
+            <button type='submit' className="btn btn-primary">Aplicar</button>
+          </div>
+        </Form>
+      </div>
+    </div>
   );
 }
 

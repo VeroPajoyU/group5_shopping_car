@@ -12,6 +12,7 @@ function App() {
   const [products, setProducts] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   const [selectedMarksIds, setSelectedMarksIds] = useState([]);
+  const [selectedSizesIds, setSelectedSizesIds] = useState([]);
 
   useEffect(() => {
     fetch_data("/products", setProducts);
@@ -38,13 +39,18 @@ function App() {
     }
   }, [selectedMarksIds]);
 
-  const handleCategorySelect = (categoryId) => {
-    setSelectedCategoryId(categoryId);
-  };
+  useEffect(() => {
+    if (selectedSizesIds.length === 0) {
+      fetch_data("/products", setProducts);
+    } else {
+      const sizesIdsString = selectedSizesIds.join(',');
+      fetch_data("/products/sizes/" + sizesIdsString, setProducts);
+    }
+  }, [selectedSizesIds]);
 
-  const handleMarkSelect = (markIds) => {
-    setSelectedMarksIds(markIds);
-  };
+  const handleCategorySelect = (categoryId) => { setSelectedCategoryId(categoryId) };
+  const handleMarkSelect = (markIds) => { setSelectedMarksIds(markIds) };
+  const handleSizeSelect = (sizeIds) => { setSelectedSizesIds(sizeIds) };
 
   return (
     <>
@@ -52,7 +58,14 @@ function App() {
         <Navigation categories={categories} onCategorySelect={handleCategorySelect} />
       </header>
       <main>
-        <Products products={products} marks={marks} sizes={sizes} colors={colors} onMarksSelect={handleMarkSelect}/>
+        <Products 
+          products={products} 
+          marks={marks} 
+          sizes={sizes} 
+          colors={colors} 
+          onMarksSelect={handleMarkSelect} 
+          onSizesSelect={handleSizeSelect} 
+        />
       </main>
     </>
   );
