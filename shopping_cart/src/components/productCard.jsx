@@ -1,10 +1,13 @@
-import { Card, Button, Placeholder } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { FaEye, FaShoppingCart, FaHeart } from "react-icons/fa";
+// const isValidImagePath = product.ruta_foto && product.ruta_foto !== 'undefined';
 
 const ProductCard = ({ product }) => {
   return (
     <Card style={{ width: "17rem", position: "relative", marginTop: "40px", marginRight: "20px", marginLeft: "20px" }}>
-      <Card.Img variant="top" src="https://dqp736wsu6w3m.cloudfront.net/s3bucket/w300/looks/1167/advgasds.jpg"/>{/* src={product.image} */}
+      <Card.Img variant="top" height="360px" src={`../../public/photoProducts/${product.ruta_foto}`} alt={product.product} />
+      {/* <Card.Img variant="top" height="360px" src={isValidImagePath ? `../../public/photoProducts/${product.ruta_foto}` : 'default-image.jpg'} alt={product.product} /> */}
+      {/* <Card.Img variant="top" src={`/assets/photoProducts/${product.ruta_foto}`}  alt={product.product} /> */}
       <Card.Body>
         <Card.Title>{product.product}</Card.Title>
         <Card.Text>{product.description}</Card.Text>

@@ -7,8 +7,10 @@ const get_products = async () => {
             nombre_producto AS product,
             descripcion_producto AS description,
             costo_producto AS price,
-            cantidad_producto AS available_product
-        FROM productos;`
+            cantidad_producto AS available_product,
+            ruta_foto
+        FROM productos p
+        JOIN fotos f ON f.id_producto_foto = p.id_producto;`
     const [results] = await connection.query(query);
     
     return results;

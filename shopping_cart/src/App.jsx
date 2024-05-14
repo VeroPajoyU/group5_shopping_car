@@ -63,8 +63,6 @@ function App() {
   }, [selectedColorsIds]);
 
   useEffect(() => {
-    console.log("minPrice:", minPrice);
-    console.log("maxPrice:", maxPrice);
     if (minPrice === 0 && maxPrice === 100000) {
       fetch_data("/products", setProducts);
     } else {
