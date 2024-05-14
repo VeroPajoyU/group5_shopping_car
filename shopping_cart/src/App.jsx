@@ -13,6 +13,9 @@ function App() {
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   const [selectedMarksIds, setSelectedMarksIds] = useState([]);
   const [selectedSizesIds, setSelectedSizesIds] = useState([]);
+  const [selectedColorsIds, setSelectedColorsIds] = useState([]);
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(100000);
 
   useEffect(() => {
     fetch_data("/products", setProducts);
@@ -48,9 +51,34 @@ function App() {
     }
   }, [selectedSizesIds]);
 
+  useEffect(() => {
+    if (selectedColorsIds.length === 0) {
+      fetch_data("/products", setProducts);
+    } else {
+      const colorsIdString = selectedColorsIds.join(',');
+      fetch_data("/products/colors/" + colorsIdString, setProducts);
+    }
+  }, [selectedColorsIds]);
+
+  useEffect(() => {
+    console.log("minPrice:", minPrice);
+    console.log("maxPrice:", maxPrice);
+    if (minPrice === 0 && maxPrice === 100000) {
+      fetch_data("/products", setProducts);
+    } else {
+      const priceRangeString = minPrice + "," + maxPrice;
+      fetch_data("/products/rangeprices/" + priceRangeString, setProducts);
+    }
+  }, [minPrice, maxPrice]);
+
   const handleCategorySelect = (categoryId) => { setSelectedCategoryId(categoryId) };
   const handleMarkSelect = (markIds) => { setSelectedMarksIds(markIds) };
   const handleSizeSelect = (sizeIds) => { setSelectedSizesIds(sizeIds) };
+  const handleColorSelect = (colorIds) => { setSelectedColorsIds(colorIds) };
+  const handlePriceSelect = (min, max) => {
+    setMinPrice(min);
+    setMaxPrice(max);
+  };
 
   return (
     <>
@@ -59,12 +87,13 @@ function App() {
       </header>
       <main>
         <Products 
-          products={products} 
-          marks={marks} 
+          products={products}marks={marks} 
           sizes={sizes} 
           colors={colors} 
           onMarksSelect={handleMarkSelect} 
           onSizesSelect={handleSizeSelect} 
+          onColorsSelect={handleColorSelect}
+          onPriceSelect={handlePriceSelect}
         />
       </main>
     </>

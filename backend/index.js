@@ -5,7 +5,7 @@
   import get_sizes from './js/sizes.js';
   import get_colors from './js/colors.js';
   import get_categories from './js/categories.js';
-  import { get_products, get_products_marks, get_products_sizes, get_products_colors, get_products_categories } from './js/products.js';
+  import { get_products, get_products_marks, get_products_sizes, get_products_colors, get_products_categories, get_products_minmax_prices, get_products_range_prices } from './js/products.js';
 
   const app = express();
   app.use(cors());
@@ -26,27 +26,25 @@
   //ENDPOINT TO GET ALL PRODUCTS
   app.post('/products', async_wrapper(get_products));
 
-  //ENDPOINT TO FILTER MARK CLOTHE
+  //ENDPOINT TO FILTER MARK PRODUCTS
   app.post('/products/marks/:id', async_wrapper(get_products_marks));
 
-  //ENDPOINT TO FILTER SIZE CLOTHE
+  //ENDPOINT TO FILTER SIZE PRODUCTS
   app.post('/products/sizes/:id', async_wrapper(get_products_sizes));
 
-  //ENDPOINT TO FILTER SIZE CLOTHE
+  //ENDPOINT TO FILTER SIZE PRODUCTS
   app.post('/products/colors/:id', async_wrapper(get_products_colors));
 
-  //ENDPOINT TO FILTER CATEGORY OF CLOTHES
+  //ENDPOINT TO FILTER CATEGORY OF PRODUCTS
   app.post('/products/categories/:id', async_wrapper(get_products_categories));
+
+  //ENDPOINT TO FILTER MMPRICES OF PRODUCTS
+  app.post('/products/mmprices', async_wrapper(get_products_minmax_prices));
+  
+  //ENDPOINT TO FILTER RANGEPRICES OF PRODUCTS
+  app.post('/products/rangeprices/:id', async_wrapper(get_products_range_prices));
 
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
   });
-
-  // http://localhost:3000/clothe/category/1
-
-  // http://localhost:3000/clothe/size/1
-
-  // http://localhost:3000/clothe/mark/1
-
-  // http://localhost:3000/clothe

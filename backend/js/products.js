@@ -78,10 +78,39 @@ const get_products_categories = async (req, res, id) => {
     return results;
 };
 
+const get_products_minmax_prices = async () => {
+    const query = 
+        `SELECT 
+            min(costo_producto) AS min_price, 
+            max(costo_producto) AS max_price 
+        FROM productos;`
+    const [results] = await connection.query(query);
+    
+    return results;
+};
+
+const get_products_range_prices = async (req, res, price) => {
+    price = price.split(',');
+    const query = 
+        `SELECT 
+            id_producto AS id,
+            nombre_producto AS product,
+            descripcion_producto AS description,
+            costo_producto AS price,
+            cantidad_producto AS available_product
+        FROM productos
+        WHERE costo_producto BETWEEN ${price[0]} AND ${price[1]};`
+    const [results] = await connection.query(query);
+
+    return results;
+}
+
 export { 
     get_products, 
     get_products_marks, 
     get_products_sizes, 
     get_products_colors, 
-    get_products_categories 
+    get_products_categories, 
+    get_products_minmax_prices,
+    get_products_range_prices
 };

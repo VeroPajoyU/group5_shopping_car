@@ -1,12 +1,17 @@
-// Products.jsx --> Componente principal que mostrará las cartas de productos.
-import ProductCard from "./ProductCard";
+// Products.jsx --> Componente principal que mostrará las cartas y cajas de filtro de productos.
 import { useState, useEffect } from 'react';
+import ProductCard from "./ProductCard";
 import MarksFilter from "./MarksFilter";
 import SizesFilter from "./SizesFilter";
+import ColorsFilter from './ColorsFilter';
+import PriceFilter from "./PriceFilter";
 
-function Products({ products, marks, sizes, colors, onMarksSelect, onSizesSelect }) {
+function Products({ products, marks, sizes, colors, onMarksSelect, onSizesSelect, onColorsSelect, onPriceSelect }) {
   const [selectedMarksIds, setSelectedMarksIds] = useState([]);
   const [selectedSizesIds, setSelectedSizesIds] = useState([]);
+  const [selectedColorsIds, setSelectedColorsIds] = useState([]);
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(100000);
 
   useEffect(() => {
     onMarksSelect(selectedMarksIds);
@@ -15,13 +20,21 @@ function Products({ products, marks, sizes, colors, onMarksSelect, onSizesSelect
   useEffect(() => {
     onSizesSelect(selectedSizesIds);
   }, [selectedSizesIds, onSizesSelect]);
-  
-  const handleMarkSelect = (markIds) => {
-    setSelectedMarksIds(markIds);
-  };
 
-  const handleSizeSelect = (sizeIds) => {
-    setSelectedSizesIds(sizeIds);
+  useEffect(() => {
+    onColorsSelect(selectedColorsIds);
+  }, [selectedColorsIds, onColorsSelect]);
+
+  useEffect(() => {
+    onPriceSelect(minPrice, maxPrice);
+  }, [minPrice, maxPrice, onPriceSelect]);
+
+  const handleMarkSelect = (markIds) => { setSelectedMarksIds(markIds) };
+  const handleSizeSelect = (sizeIds) => { setSelectedSizesIds(sizeIds) };
+  const handleColorSelect = (colorIds) => { setSelectedColorsIds(colorIds) };
+  const handlePriceSelect = (min, max) => {
+    setMinPrice(min);
+    setMaxPrice(max);
   };
 
   return (
@@ -36,6 +49,16 @@ function Products({ products, marks, sizes, colors, onMarksSelect, onSizesSelect
           <div className="col">
             <section className="">
               <SizesFilter sizes={sizes} onSizesSelect={handleSizeSelect} />
+            </section>
+          </div>
+          <div className="col">
+            <section className="">
+              <ColorsFilter colors={colors} onColorsSelect={handleColorSelect} />
+            </section>
+          </div>
+          <div className="col">
+            <section className="">
+              <PriceFilter onPriceSelect={handlePriceSelect} />
             </section>
           </div>
         </div>
