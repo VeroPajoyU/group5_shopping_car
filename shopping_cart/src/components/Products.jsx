@@ -6,7 +6,7 @@ import SizesFilter from "./SizesFilter";
 import ColorsFilter from './ColorsFilter';
 import PriceFilter from "./PriceFilter";
 
-function Products({ products, marks, sizes, colors, onMarksSelect, onSizesSelect, onColorsSelect, onPriceSelect }) {
+function Products({ products, marks, sizes, colors, prices, onMarksSelect, onSizesSelect, onColorsSelect, onPriceSelect }) {
   const [selectedMarksIds, setSelectedMarksIds] = useState([]);
   const [selectedSizesIds, setSelectedSizesIds] = useState([]);
   const [selectedColorsIds, setSelectedColorsIds] = useState([]);
@@ -55,10 +55,10 @@ function Products({ products, marks, sizes, colors, onMarksSelect, onSizesSelect
             <section className="">
               <ColorsFilter colors={colors} onColorsSelect={handleColorSelect} />
             </section>
-          </div>
+          </div>          
           <div className="col">
             <section className="">
-              <PriceFilter onPriceSelect={handlePriceSelect} />
+              <PriceFilter prices={prices} onPriceSelect={handlePriceSelect} />
             </section>
           </div>
         </div>

@@ -10,6 +10,7 @@ function App() {
   const [sizes, setSizes] = useState([]);
   const [colors, setColors] = useState([]);
   const [products, setProducts] = useState([]);
+  const [mmPrices, setMmPrices] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   const [selectedMarksIds, setSelectedMarksIds] = useState([]);
   const [selectedSizesIds, setSelectedSizesIds] = useState([]);
@@ -23,6 +24,7 @@ function App() {
     fetch_data("/marks", setMarks);
     fetch_data("/sizes", setSizes);
     fetch_data("/colors", setColors);
+    fetch_data("/products/mmprices", setMmPrices);
   }, []);
 
   useEffect(() => {
@@ -90,6 +92,7 @@ function App() {
           products={products}marks={marks} 
           sizes={sizes} 
           colors={colors} 
+          prices={mmPrices}
           onMarksSelect={handleMarkSelect} 
           onSizesSelect={handleSizeSelect} 
           onColorsSelect={handleColorSelect}
