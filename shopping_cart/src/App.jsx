@@ -11,12 +11,14 @@ function App() {
   const [colors, setColors] = useState([]);
   const [products, setProducts] = useState([]);
   const [mmPrices, setMmPrices] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   const [selectedMarksIds, setSelectedMarksIds] = useState([]);
   const [selectedSizesIds, setSelectedSizesIds] = useState([]);
   const [selectedColorsIds, setSelectedColorsIds] = useState([]);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100000);
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     fetch_data("/products", setProducts);
@@ -25,6 +27,7 @@ function App() {
     fetch_data("/sizes", setSizes);
     fetch_data("/colors", setColors);
     fetch_data("/products/mmprices", setMmPrices);
+    fetch_data("/products/search", setSearchText);
   }, []);
 
   useEffect(() => {
@@ -79,15 +82,22 @@ function App() {
     setMinPrice(min);
     setMaxPrice(max);
   };
+  const handleSearchChange = (searchText) => {
+    const filteredProducts = products.filter((product) => {
+      return product.product.toLowerCase().includes(searchText.toLowerCase());
+    });
+    setFilteredProducts(filteredProducts);
+  };
 
   return (
     <>
-      <header>
+      <header className="sticky-top">
         <Navigation categories={categories} onCategorySelect={handleCategorySelect} />
       </header>
       <main>
         <Products 
-          products={products}marks={marks} 
+          products={products}
+          marks={marks} 
           sizes={sizes} 
           colors={colors} 
           prices={mmPrices}
@@ -95,6 +105,7 @@ function App() {
           onSizesSelect={handleSizeSelect} 
           onColorsSelect={handleColorSelect}
           onPriceSelect={handlePriceSelect}
+          // productsF={handleSearchChange} 
         />
       </main>
     </>

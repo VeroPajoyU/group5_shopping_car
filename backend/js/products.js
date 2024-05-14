@@ -105,7 +105,24 @@ const get_products_range_prices = async (req, res, price) => {
     const [results] = await connection.query(query);
 
     return results;
-}
+};
+
+const get_products_search = async (req, res, searchText) => {
+    const query = 
+      `SELECT 
+        id_producto AS id,
+        nombre_producto AS product,
+        descripcion_producto AS description,
+        costo_producto AS price,
+        cantidad_producto AS available_product,
+        ruta_foto
+      FROM productos p
+      JOIN fotos f ON f.id_producto_foto = p.id_producto
+      WHERE nombre_producto LIKE '%${searchText}%' OR descripcion_producto LIKE '%${searchText}%';`
+    const [results] = await connection.query(query);
+    
+    return results;
+  };
 
 export { 
     get_products, 
@@ -114,5 +131,6 @@ export {
     get_products_colors, 
     get_products_categories, 
     get_products_minmax_prices,
-    get_products_range_prices
+    get_products_range_prices,
+    get_products_search
 };

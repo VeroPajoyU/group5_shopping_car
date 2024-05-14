@@ -5,6 +5,7 @@ import MarksFilter from "./MarksFilter";
 import SizesFilter from "./SizesFilter";
 import ColorsFilter from './ColorsFilter';
 import PriceFilter from "./PriceFilter";
+import logo from "../assets/logo_white.png";
 
 function Products({ products, marks, sizes, colors, prices, onMarksSelect, onSizesSelect, onColorsSelect, onPriceSelect }) {
   const [selectedMarksIds, setSelectedMarksIds] = useState([]);
@@ -38,38 +39,34 @@ function Products({ products, marks, sizes, colors, prices, onMarksSelect, onSiz
   };
 
   return (
-    <div className="container container-fluid ">
+    <div className="container-fluid">
       <div className="row">
-        <div className="col-sm-3 col-md-2 col-lg-2 col-xl-3">
-          <div className="col">
-            <section className="">
+        <div className="col-md-3">
+          <div className="card">
+            <div className="card-body">
+              <h5>Filtros</h5>
+              <hr />
               <MarksFilter marks={marks} onMarksSelect={handleMarkSelect} />
-            </section>
-          </div>
-          <div className="col">
-            <section className="">
               <SizesFilter sizes={sizes} onSizesSelect={handleSizeSelect} />
-            </section>
-          </div>
-          <div className="col">
-            <section className="">
               <ColorsFilter colors={colors} onColorsSelect={handleColorSelect} />
-            </section>
-          </div>          
-          <div className="col">
-            <section className="">
               <PriceFilter prices={prices} onPriceSelect={handlePriceSelect} />
-            </section>
+            </div>
           </div>
         </div>
-        <div className="col-sm-10 col-md-9 col-lg-9 col-xl-9 border border-end-0">
-          <section className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-3 g-3">
-            {products.map((product, index) => (
-              <ProductCard key={index} product={product} />
-            ))}
-          </section>
+        <div className="col-md-9">
+          <div className="card">
+            <div className="card-body">
+              <h5 className='text-center'><img src={logo} alt="Boutique" width={270} height={40} /></h5>
+              <hr />
+              <section className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-3 g-3">
+                {products.map((product, index) => (
+                  <ProductCard key={index} product={product} />
+                ))}
+              </section>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
     </div>
   );
 }

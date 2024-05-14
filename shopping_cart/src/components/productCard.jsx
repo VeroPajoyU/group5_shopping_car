@@ -1,5 +1,5 @@
 import { Card } from "react-bootstrap";
-import { FaEye, FaShoppingCart, FaHeart } from "react-icons/fa";
+import { FaRegEye, FaShoppingCart, FaHeart } from "react-icons/fa";
 // const isValidImagePath = product.ruta_foto && product.ruta_foto !== 'undefined';
 
 const ProductCard = ({ product }) => {
@@ -13,8 +13,8 @@ const ProductCard = ({ product }) => {
         <Card.Text>{product.description}</Card.Text>
         <section className="d-flex align-items-center justify-content-between">
           <h2 className="d-flex align-items-center">${product.price}</h2>
-          <div style={{ display: "flex", alignItems: "flex-end"}}>
-            <FaEye size={35} color="blue" title="Ver detalle" className="me-3"/>
+          <div style={{ display: "flex", alignItems: "flex-end", }}>
+            <FaRegEye size={35} color="black" title="Ver detalle" className="me-3"/>
             <FaShoppingCart size={35} color="green" title="Añadir al carrito" />
           </div>
         </section>

@@ -5,7 +5,16 @@
   import get_sizes from './js/sizes.js';
   import get_colors from './js/colors.js';
   import get_categories from './js/categories.js';
-  import { get_products, get_products_marks, get_products_sizes, get_products_colors, get_products_categories, get_products_minmax_prices, get_products_range_prices } from './js/products.js';
+  import { 
+    get_products, 
+    get_products_marks, 
+    get_products_sizes, 
+    get_products_colors, 
+    get_products_categories, 
+    get_products_minmax_prices, 
+    get_products_range_prices, 
+    get_products_search 
+  } from './js/products.js';
 
   const app = express();
   app.use(cors());
@@ -43,6 +52,9 @@
   
   //ENDPOINT TO FILTER RANGEPRICES OF PRODUCTS
   app.post('/products/rangeprices/:id', async_wrapper(get_products_range_prices));
+
+  //ENDPOINT TO SEARCH PRODUCTS
+  app.post('/products/search', async_wrapper(get_products_search));
 
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {

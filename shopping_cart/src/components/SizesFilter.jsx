@@ -1,28 +1,40 @@
-// SizesFilter.jsx --> Fila de checkbox para seleccionar tallas.
 import { useCallback, useState } from 'react';
 import { Form } from 'react-bootstrap';
 
 function SizesFilter({ sizes, onSizesSelect }) {
-  const [selectedSizes, setSelectedSizes] = useState([]);
+const [selectedSizes, setSelectedSizes] = useState([]);
   const [isAllSelected, setIsAllSelected] = useState(false);
 
-  const handleSizeSelect = useCallback((sizeId) => {
+  const sizesPerColumn = Math.ceil(sizes.length / 2);
+  const sizesColumn1 = sizes.slice(0, sizesPerColumn);
+  const sizesColumn2 = sizes.slice(sizesPerColumn);
+
+  const handleSizeSelect = useCallback((sizeId, column) => {
     const isSelected = selectedSizes.includes(sizeId);
-    if (sizeId === "all") {
-      setIsAllSelected(!isAllSelected);
-      setSelectedSizes(isAllSelected ? [] : sizes.map((size) => size.id));
+    const newSelectedSizes = [...selectedSizes];
+
+    if (isSelected) {
+      newSelectedSizes.splice(newSelectedSizes.indexOf(sizeId), 1);
     } else {
-      if (isSelected) {
-        setSelectedSizes(selectedSizes.filter((id) => id !== sizeId));
-      } else {
-        setSelectedSizes([...selectedSizes, sizeId]);
-      }
+      newSelectedSizes.push(sizeId);
     }
+
+    if (newSelectedSizes.length === sizes.length) {
+      setIsAllSelected(true);
+    } else {
+      setIsAllSelected(false);
+    }
+
+    setSelectedSizes(newSelectedSizes);
   }, [selectedSizes, sizes]);
 
   const handleAllSelect = useCallback((event) => {
     setIsAllSelected(event.target.checked);
-    setSelectedSizes(event.target.checked ? sizes.map((size) => size.id) : []);
+    if (event.target.checked) {
+      setSelectedSizes(sizes.map((size) => size.id));
+    } else {
+      setSelectedSizes([]);
+    }
   }, [sizes]);
 
   const handleApply = useCallback((event) => {
@@ -37,27 +49,47 @@ function SizesFilter({ sizes, onSizesSelect }) {
           <div className="text-center mt-3">
             <h5><Form.Label>Tallas</Form.Label></h5>
           </div>
-          <div className="accordion-body m-1" style={{ overflowY: "auto", maxHeight: "200px"}}>
-            <Form.Check
-              key={"all"}
-              type="checkbox"
-              name="size"
-              value={"all"}
-              label={"Todas"}
-              checked={isAllSelected}
-              onChange={handleAllSelect}
-            />
-            {sizes.map((size) => (
-              <Form.Check
-                key={size.id}
-                type="checkbox"
-                name="size"
-                value={size.id}
-                label={size.size}
-                checked={selectedSizes.includes(size.id)}
-                onChange={() => handleSizeSelect(size.id)}
-              />
-            ))}
+          <div className="accordion-body m-1" style={{ overflowY: "auto", maxHeight: "135px"}}>
+            <div className="row">
+              <div>
+                <Form.Check
+                  key={"all-column1"}
+                  type="checkbox"
+                  name="size"
+                  value={"all"}
+                  label={"Todas"}
+                  checked={isAllSelected}
+                  onChange={(event) => handleAllSelect(event)}
+                />
+              </div>
+              <hr className="my-2" />
+              <div className="col">                
+                {sizesColumn1.map((size) => (
+                  <Form.Check
+                    key={size.id}
+                    type="checkbox"
+                    name="size"
+                    value={size.id}
+                    label={size.size}
+                    checked={selectedSizes.includes(size.id)}
+                    onChange={() => handleSizeSelect(size.id, sizes)}
+                  />
+                ))}
+              </div>
+              <div className="col">
+                {sizesColumn2.map((size) => (
+                  <Form.Check
+                    key={size.id}
+                    type="checkbox"
+                    name="size"
+                    value={size.id}
+                    label={size.size}
+                    checked={selectedSizes.includes(size.id)}
+                    onChange={() => handleSizeSelect(size.id, sizes)}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
           <div className="text-center m-3">
             <button type='submit' className="btn btn-primary">Aplicar</button>
