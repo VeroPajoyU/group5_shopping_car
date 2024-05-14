@@ -18,11 +18,13 @@ function PriceFilter({ prices, onPriceSelect }) {
   }, [prices]);
 
   const handleMinPriceChange = (e) => {
-    setMinPrice(e.target.value);
+    const value = parseInt(e.target.value, 10);
+    setMinPrice(Math.min(value, maxPrice));
   };
 
   const handleMaxPriceChange = (e) => {
-    setMaxPrice(e.target.value);
+    const value = parseInt(e.target.value, 10);
+    setMaxPrice(Math.max(value, minPrice));
   };
 
   const handleSubmit = (e) => {
@@ -46,7 +48,7 @@ function PriceFilter({ prices, onPriceSelect }) {
               type="range"
               name="minPrice"
               value={minPrice}
-              min={minPrice}
+              min={prices[0].min_price}
               max={maxPrice}
               onChange={handleMinPriceChange}
             />
@@ -54,7 +56,7 @@ function PriceFilter({ prices, onPriceSelect }) {
               type="number"
               name="minPrice"
               value={minPrice}
-              min={minPrice}
+              min={prices[0].min_price}
               max={maxPrice}
               onChange={handleMinPriceChange}
             />
@@ -63,7 +65,7 @@ function PriceFilter({ prices, onPriceSelect }) {
               name="maxPrice"
               value={maxPrice}
               min={minPrice}
-              max={maxPrice}
+              max={prices[0].max_price}
               onChange={handleMaxPriceChange}
             />
             <Form.Control
@@ -71,7 +73,7 @@ function PriceFilter({ prices, onPriceSelect }) {
               name="maxPrice"
               value={maxPrice}
               min={minPrice}
-              max={maxPrice}
+              max={prices[0].max_price}
               onChange={handleMaxPriceChange}
             />
           </div>
