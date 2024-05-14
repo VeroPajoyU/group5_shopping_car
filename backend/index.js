@@ -1,102 +1,62 @@
-import express from 'express';
-import cors from 'cors';
-import mysql from 'mysql2';
+  import express from 'express';
+  import cors from 'cors';
+  import async_wrapper from './js/async_wrapper.js';
+  import get_marks from './js/marks.js';
+  import get_sizes from './js/sizes.js';
+  import get_colors from './js/colors.js';
+  import get_categories from './js/categories.js';
+  import { 
+    get_products, 
+    get_products_marks, 
+    get_products_sizes, 
+    get_products_colors, 
+    get_products_categories, 
+    get_products_minmax_prices, 
+    get_products_range_prices, 
+    get_products_search 
+  } from './js/products.js';
 
-const CREDENTIALS = {
-  MYSQL_HOST: 'localhost',
-  MYSQL_USER: 'root',
-  MYSQL_PASSWORD: '',
-  MYSQL_DATABASE: 'shoppingcart'
-};
+  const app = express();
+  app.use(cors());
+  app.use(express.json());
 
-const connection = mysql.createPool({
-  host: CREDENTIALS.MYSQL_HOST,
-  user: CREDENTIALS.MYSQL_USER,
-  password: CREDENTIALS.MYSQL_PASSWORD,
-  database: CREDENTIALS.MYSQL_DATABASE
-}).promise();
+  //ENDPOINT TO GET ALL MARKS
+  app.post('/marks', async_wrapper(get_marks));
 
-const app = express();
-app.use(cors());
-app.use(express.json());
+  //ENDPOINT TO GET ALL SIZES
+  app.post('/sizes', async_wrapper(get_sizes));
 
-//ENDPOINT TO GET ALL PRODUCTS
-app.post('/clothe', async (req, res) => {
-    try {
-        const query =   `SELECT
-                            p.nombre_producto AS Garment,
-                            p.descripcion_producto AS Description,
-                            p.costo_producto AS Price
-                        FROM productos p;`;
-        const [results] = await connection.query(query);
-        res.json(results);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'DATA NO FOUND' });
-    }
-});
+  //ENDPOINT TO GET ALL COLORS
+  app.post('/colors', async_wrapper(get_colors));
 
-//ENDPOINT TO FILTER CATEGORY OF CLOTHES
-app.post('/clothe/category/:id', async (req, res) => {
-    //OBTAIN THE URL ID
-    const { id } = req.params;
-    try {
-        const query =   `SELECT
-                            p.nombre_producto AS Garment,
-                            p.descripcion_producto AS Description,
-                            p.costo_producto AS Price
-                        FROM productos p
-                        JOIN categorias c ON c.id_categoria = p.id_categoria_producto
-                        WHERE c.id_categoria = ${id};`;
-        const [results] = await connection.query(query);
-        res.json(results);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'DATA NO FOUND' });
-    }
-});
+  //ENDPOINT TO GET ALL COLORS
+  app.post('/categories', async_wrapper(get_categories));
 
-//ENDPOINT TO FILTER MARK CLOTHE
-app.post('/clothe/mark/:id', async (req, res) => {
-    //OBTAIN THE URL ID
-    const { id } = req.params;
-    try {
-        const query =   `SELECT
-                            p.nombre_producto AS Garment,
-                            p.descripcion_producto AS Description,
-                            p.costo_producto AS Price
-                        FROM productos p
-                        JOIN marcas m ON m.id_marca = p.id_marca_producto
-                        WHERE m.id_marca = ${id};`;
-        const [results] = await connection.query(query);
-        res.json(results);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'DATA NO FOUND' });
-    }
-});
+  //ENDPOINT TO GET ALL PRODUCTS
+  app.post('/products', async_wrapper(get_products));
 
-//ENDPOINT TO FILTER SIZE CLOTHE
-app.post('/clothe/size/:id', async (req, res) => {
-    //OBTAIN THE URL ID
-    const { id } = req.params;
-    try {
-        const query =   `SELECT
-                            p.nombre_producto AS Garment,
-                            p.descripcion_producto AS Description,
-                            p.costo_producto AS Price
-                        FROM productos p
-                        JOIN tallas t ON t.id_talla = p.id_marca_producto
-                        WHERE t.id_talla = ${id};`;
-        const [results] = await connection.query(query);
-        res.json(results);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'DATA NO FOUND' });
-    }
-});
+  //ENDPOINT TO FILTER MARK PRODUCTS
+  app.post('/products/marks/:id', async_wrapper(get_products_marks));
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+  //ENDPOINT TO FILTER SIZE PRODUCTS
+  app.post('/products/sizes/:id', async_wrapper(get_products_sizes));
+
+  //ENDPOINT TO FILTER SIZE PRODUCTS
+  app.post('/products/colors/:id', async_wrapper(get_products_colors));
+
+  //ENDPOINT TO FILTER CATEGORY OF PRODUCTS
+  app.post('/products/categories/:id', async_wrapper(get_products_categories));
+
+  //ENDPOINT TO FILTER MMPRICES OF PRODUCTS
+  app.post('/products/mmprices', async_wrapper(get_products_minmax_prices));
+  
+  //ENDPOINT TO FILTER RANGEPRICES OF PRODUCTS
+  app.post('/products/rangeprices/:id', async_wrapper(get_products_range_prices));
+
+  //ENDPOINT TO SEARCH PRODUCTS
+  app.post('/products/search', async_wrapper(get_products_search));
+
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
