@@ -1,6 +1,6 @@
 // Products.jsx --> Componente principal que mostrará las cartas y cajas de filtro de productos.
 import { useState, useEffect } from 'react';
-import ProductCard from "./ProductCard";
+import ProductCard from "./productCard";
 import MarksFilter from "./MarksFilter";
 import SizesFilter from "./SizesFilter";
 import ColorsFilter from './ColorsFilter';

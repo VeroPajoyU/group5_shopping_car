@@ -1,6 +1,6 @@
 // App.jsx
 import { useState, useEffect } from "react";
-import Navigation from "./components/Navigation.jsx";
+import Navigation from "./components/navigation.jsx";
 import Products from "./components/Products.jsx";
 import fetch_data from "./api/api_backend.jsx";
 
@@ -105,7 +105,7 @@ function App() {
           onSizesSelect={handleSizeSelect} 
           onColorsSelect={handleColorSelect}
           onPriceSelect={handlePriceSelect}
-          // productsF={handleSearchChange} 
+          productsF={handleSearchChange} 
         />
       </main>
     </>
